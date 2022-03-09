@@ -146,9 +146,14 @@ export default function CardWizard({
               error={urlVerification !== ''}
               helperText={urlVerification}
             />
-            <Button sx={{ mt: 2 }} onClick={handleSaveChanges}>
-              Save Changes
-            </Button>{' '}
+            <Box>
+              <Button sx={{ mt: 2 }} onClick={handleSaveChanges}>
+                Save Changes
+              </Button>
+              <Button sx={{ mt: 2 }} onClick={handleClose}>
+                Cancel
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Modal>
