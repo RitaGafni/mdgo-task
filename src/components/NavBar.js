@@ -23,7 +23,12 @@ export default function NavBar({ handleOpenWizard }) {
             Add Photo
           </Button>
           <Typography variant='h6' component='div'>
-            <img height='20' src={logo} alt='MDGO' style={{ marginRight: 4 }} />
+            <img
+              height='20'
+              src={logo}
+              alt='MDGO'
+              style={{ marginRight: 8, marginBottom: 4 }}
+            />
             Client-Side Task
           </Typography>
         </Toolbar>

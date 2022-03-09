@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { fetchCardsData } from '../helpers/CardsHelper';
+import { fetchCardsData, getCardIndex, getMaxId } from '../helpers/CardsHelper';
 import CardView from '../components/CardView';
 import NavBar from '../components/NavBar';
 import CardWizard from '../components/CardWizard';
@@ -30,9 +30,22 @@ export default function HomePage() {
   };
 
   const handleEditCard = (cardToEdit) => {
+    const cardIndex = getCardIndex(cardsData, cardToEdit.id);
     let temp = cardsData;
-    const cardIndex = temp.findIndex((obj) => obj.id === cardToEdit.id);
     temp[cardIndex] = cardToEdit;
+    setCardsData(temp);
+  };
+
+  const handleNewCard = (cardToAdd) => {
+    const maxId = getMaxId(cardsData);
+    const temp = [
+      ...cardsData,
+      {
+        id: maxId + 1,
+        title: cardToAdd.title,
+        url: cardToAdd.url,
+      },
+    ];
     setCardsData(temp);
   };
 
@@ -71,6 +84,8 @@ export default function HomePage() {
           setIsWizardOpen={setIsWizardOpen}
           setEditMode={setEditMode}
           handleEditCard={handleEditCard}
+          handleNewCard={handleNewCard}
+          cardsData={cardsData}
         />
       </Box>
     </div>

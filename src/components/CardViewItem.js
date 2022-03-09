@@ -77,7 +77,7 @@ export default function CardViewItem({
               {card.url}
             </Typography>
           </Popover>
-          <CardContent>
+          <CardContent key={card.id}>
             <Typography gutterBottom variant='h5' component='div'>
               Id: {card.id}
             </Typography>

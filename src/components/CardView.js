@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { deleteCard } from '../helpers/CardsHelper';
 import CardsPagination from './CardsPagination';
 import CardViewItem from './CardViewItem';
+import configData from '../config.json';
 
 export default function CardView({
   cardsData,
@@ -10,16 +11,22 @@ export default function CardView({
   handleOpenWizard,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardsPerPage, setCardsPerPage] = useState(20);
+  const [cardsPerPage, setCardsPerPage] = useState(
+    configData.DEFAULD_CARDS_PER_PAGE
+  );
+  const [currentCards, setCurrentCards] = useState();
+  const [numberOfPages, setNumberOfPages] = useState();
 
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-
-  const currentCards = cardsData
-    ? cardsData.slice(indexOfFirstCard, indexOfLastCard)
-    : null;
-  const numberOfCards = cardsData ? cardsData.length : null;
-  const numberOfPages = parseInt(numberOfCards / cardsPerPage);
+  useEffect(() => {
+    const indexOfLastCard = currentPage * cardsPerPage;
+    const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+    const cards = cardsData
+      ? cardsData.slice(indexOfFirstCard, indexOfLastCard)
+      : null;
+    setCurrentCards(cards);
+    const numberOfCards = cardsData ? cardsData.length : null;
+    setNumberOfPages(Math.ceil(numberOfCards / cardsPerPage));
+  }, [cardsData, cardsPerPage, currentPage, handleOpenWizard]);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -58,7 +65,7 @@ export default function CardView({
           flexWrap: 'wrap',
         }}
       >
-        {cardsData &&
+        {currentCards &&
           currentCards.map((item) => (
             <CardViewItem
               card={item}

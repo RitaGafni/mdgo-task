@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Box from '@mui/material/Box';
+import configData from '../config.json';
 
 export default function CardsPagination({
   numberOfPages,
@@ -12,7 +13,8 @@ export default function CardsPagination({
   cardsPerPage,
   setCardsPerPage,
 }) {
-  const pagesOptions = [10, 20, 30, 40, 50];
+  const pagesOptions = configData.PAGE_OPTIONS;
+
   const handleChange = (event) => {
     setCardsPerPage(event.target.value);
   };
@@ -28,7 +30,7 @@ export default function CardsPagination({
     >
       <Box sx={{ width: 120 }}>
         <FormControl fullWidth>
-          <InputLabel id='select-cards-per-page'># of cards</InputLabel>
+          <InputLabel id='select-cards-per-page'>cards pre page</InputLabel>
           <Select
             id='select'
             value={cardsPerPage}

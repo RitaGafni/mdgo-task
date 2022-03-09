@@ -4,7 +4,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
-import { validateURL } from '../helpers/CardsHelper';
+import {
+  checkIfTitleExists,
+  checkIfUrlExists,
+  validateURL,
+} from '../helpers/CardsHelper';
 
 const style = {
   position: 'absolute',
@@ -25,6 +29,8 @@ export default function CardWizard({
   setIsWizardOpen,
   setEditMode,
   handleEditCard,
+  handleNewCard,
+  cardsData,
 }) {
   const [currentCard, setCurrentCard] = useState({
     id: '',
@@ -42,14 +48,17 @@ export default function CardWizard({
         url: cardToEdit.url,
       });
     }
-  }, [cardToEdit]);
+  }, [cardToEdit, isWizardOpen]);
 
   useEffect(() => {
     setOpen(isWizardOpen);
   }, [isWizardOpen]);
 
   const [open, setOpen] = useState(false);
+
   const handleClose = () => {
+    setUrlVerification('');
+    setTitleVerification('');
     setOpen(false);
     setIsWizardOpen(false);
     setEditMode(false);
@@ -75,10 +84,20 @@ export default function CardWizard({
       setUrlVerification('URL is not valid');
       return;
     }
+    if (checkIfTitleExists(cardsData, currentCard.title, currentCard.id)) {
+      setTitleVerification('Title already exists');
+      return;
+    }
+    if (checkIfUrlExists(cardsData, currentCard.url, currentCard.id)) {
+      setUrlVerification('URL already exists');
+      return;
+    }
     if (editMode) {
       handleEditCard(currentCard);
-      setIsWizardOpen(false);
+    } else {
+      handleNewCard(currentCard);
     }
+    setIsWizardOpen(false);
   };
 
   return (
