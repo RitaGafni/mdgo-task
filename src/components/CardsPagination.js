@@ -30,7 +30,7 @@ export default function CardsPagination({
     >
       <Box sx={{ width: 120 }}>
         <FormControl fullWidth>
-          <InputLabel id='select-cards-per-page'>cards pre page</InputLabel>
+          <InputLabel id='select-cards-per-page'>cards per page</InputLabel>
           <Select
             id='select'
             value={cardsPerPage}
